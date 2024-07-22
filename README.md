@@ -1,66 +1,34 @@
-## Foundry
+# HackMeIfYouCan.s.sol exploit explanations
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## 1. Hack flip() function
 
-Foundry consists of:
+Check the value of flip before using the same calcul as in the function and send the right value.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## 2. Hack addPoint() function
 
-## Documentation
+The exploit use tx.origin, create another contract to call the addPoint() function.
 
-https://book.getfoundry.sh/
+## 3. Hack transfer() function
 
-## Usage
+Very simple underflow exploit
 
-### Build
+## 4. Hack goTo() function
 
-```shell
-$ forge build
-```
+As transfer() it rely on tx.origin so another contract need to be created.
+But it needs to use the same interface as the Building interface in HackMeIfYouCan.sol
+Another thing is that isLastFloor() function should not return twice the same value.
 
-### Test
+## 5. Hack sendKey() function
 
-```shell
-$ forge test
-```
+The exploit rely on the fact that all data are visible on chain.
+Just get the data[12] value on chain and cast to bytes16 to start the function.
+To get the value use bytes32(uint256(16)). 16 is the index of the data[12] value.
 
-### Format
+## 6.Hack sendPassword() function
 
-```shell
-$ forge fmt
-```
+Same exploit as before
 
-### Gas Snapshots
+## 7. Hack receive() callBack function
 
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+Call contribute first to get the right value for the callBack function.
+Then call receive() with the right value.
